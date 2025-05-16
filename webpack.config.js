@@ -21,15 +21,24 @@ const config = {
     path: path.resolve(__dirname, "dist"),
   },
   devServer: {
-    open: true,
-    host: "localhost",
-    watchFiles: ["src/pages/*.html"],
-    hot: true
-  },
+  open: true,
+  host: "localhost",
+  watchFiles: ["src/pages/*.html"],
+  hot: true,
+  proxy: {
+    '/api': {
+      target: process.env.API_ORIGIN,
+      changeOrigin: true,
+      secure: false,
+      pathRewrite: { '^/api': '' }
+    }
+  }
+    },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "src/pages/index.html"
-    }),
+    template: "src/pages/index.html",
+    favicon: "./src/favicon.ico" // если есть
+  }),
 
     new MiniCssExtractPlugin(),
 
